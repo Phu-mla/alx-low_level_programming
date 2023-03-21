@@ -1,6 +1,5 @@
 #include<stdio.h>
-/*
- *
+/**
  * Entry point - main
  * Return : Always 0 (Success)
  */
@@ -14,13 +13,13 @@ int main(void)
 		putchar(lowercase);
 		lowercase++;
 	}
-	do{
+	do {
 		putchar (uppercase);
 		uppercase++;
 
-	}while (uppercase <= 'Z');
+	} while (uppercase <= 'Z');
 
 	putchar('\n');
 
-	return(0);
+	return (0);
 }

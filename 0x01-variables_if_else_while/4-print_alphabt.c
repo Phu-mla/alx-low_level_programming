@@ -1,6 +1,5 @@
 #include<stdio.h>
-/*
- *
+/**
  *main - entry point
  *Return :always 0 (Success)
  */
@@ -11,7 +10,7 @@ int main(void)
 
 	while (alphabet <= 'z')
 	{
-		if((alphabet != 'q') && (alphabet != 'e'))
+		if( (alphabet != 'q') && (alphabet != 'e') )
 		{
 			putchar (alphabet);
 		}
