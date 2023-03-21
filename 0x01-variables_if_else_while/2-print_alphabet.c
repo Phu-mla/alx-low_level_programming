@@ -1,7 +1,7 @@
 #include<stdio.h>
 /**
- * Entry point - main
- * Return : Always 0 (Success)
+ *main - entry point
+ *Return : Always 0 (Success)
  *
 */
 int main(void)
@@ -14,5 +14,5 @@ alphabet++;
 }
 putchar('\n');
 
-return(0);
+return (0);
 }

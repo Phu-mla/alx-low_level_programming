@@ -2,23 +2,22 @@
 #include <time.h>
 #include <stdio.h>
 /**
- * Entry point - main
- * Return : Always 0 (Success)
+ *main - entry point
+ *Return : Always 0 (Success)
  * 
 */
 int main(void)
 {
 	int n;
-	int mod = n % 10;
 	srand(time(0));
 	n = rand() - RAND_MAX / 2;
 	/* your code goes there */
-	printf("Last digit of  %i is %i and is ", n, mod);
+	printf("Last digit of  %i is %i and is ", n, (n%10));
 
-	if (mod==0)
+	if ((n%10)==0)
 	{
 	printf("0\n");
-	}else if (mod > 5)
+	}else if ((n%10) > 5)
 	{
 	printf("greater than 5\n");
 	}else
