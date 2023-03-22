@@ -2,7 +2,7 @@
 #include <stdio.h>
 /**
  * print_to_98 - print numbers n to 98
- *@num - is the number variable
+ *@num: is the number variable
  */
 
 void print_to_98(int num)
