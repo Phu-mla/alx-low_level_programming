@@ -2,6 +2,7 @@
 #include <stdio.h>
 /**
  * print_to_98 - print numbers n to 98
+ *@num - is the number variable
  */
 
 void print_to_98(int num)
@@ -18,7 +19,7 @@ void print_to_98(int num)
 		num--;
 	}
 
-	if ( num == 98)
+	if (num == 98)
 		printf("%d", num);
 
 	printf("\n");

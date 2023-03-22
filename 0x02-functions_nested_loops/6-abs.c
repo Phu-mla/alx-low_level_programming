@@ -2,6 +2,7 @@
 /**
  *_abs - calculate absolute value of an int
  *Return: absolute value
+ *@num - int argument
  */
 
 int _abs(int num)
