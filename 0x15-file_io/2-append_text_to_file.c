@@ -1,50 +1,41 @@
 #include "main.h"
 /**
- * _strlen - find string length
- * @str: string
- * Return: length
+ * _strlen - returns the length of the string
+ * @s: string
+ *
+ * Return: returns the length of the string
  */
-int_strlen(char *str)
+int _strlen(char *s)
 {
-	int length;
+	int x;
 
-	for (length = 0; str[length] != '\0'; length++)
+	for (x = 0; s[x] != '\0'; x++)
 		;
-	
-	return (length);
+	return (x);
 }
 
 /**
- * append_text_to_file - append text if file exists
- * @filename: file
- * @text_content: content to be appended to file
- * Return: 1 on success, -1 on failure
+ * append_text_to_file - appends text at the end of a file
+ * @filename: name of file
+ * @text_content: text to append to file
+ *
+ * Return: returns 1 on success and -1 on failure
  */
 int append_text_to_file(const char *filename, char *text_content)
 {
-	int file_descr;
-	int n_wrote;
+	int fd;
 
-	if (!filename)
+	if (filename == NULL)
 		return (-1);
-
-	file_descr = open(filename, O_WRONLY | O_APPEND);
-	if (file_descr == -1)
+	fd = open(filename, O_WRONLY | O_APPEND, S_IWUSR);
+	if (fd == -1)
 		return (-1);
-
-	if (!text_content)
+	if (text_content == NULL)
 	{
-		close(file_descr);
+		close(fd);
 		return (1);
 	}
-
-	n_wrote = write(file_descr, text_content, _strlen(text_content));
-	if (n_wrote == -1 || n_wrote != _strlen(text_content))
-	{
-		close(file_descr);
-		return (-1);
-	}
-
-	close(file_descr);
+	write(fd, text_content, _strlen(text_content));
+	close(fd);
 	return (1);
 }
