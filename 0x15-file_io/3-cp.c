@@ -1,3 +1,5 @@
+#include <stdio.h>
+#include <stdlib.h>
 #include <unistd.h>
 #include <sys/types.h>
 #include <sys/stat.h>
@@ -5,42 +7,88 @@
 #include "main.h"
 
 /**
- * append_text_to_file - appends text to the end of a file
- * @filename: name of file
- * @text_content: NULL terminated string to add at the end of file
- * Return: 1 on success, -1 on failure
+ * main - copies content of file to another file
+ * @argc: number of arguments
+ * @argv: pointer to string of arguments
+ * Return: 0 on success
  */
-int append_text_to_file(const char *filename, char *text_content)
+int main(int argc, char *argv[])
 {
-	int fd;
-	int counter; /* number of bytes in text_content */
-	int write_ret; /* return status of write syscall */
-	int close_ret; /* return status of close syscall */
+	char *file_from, *file_to;
+	char buffer[BUFLEN];
+	int fd_to, fd_from = 0;
+	int read_ret, write_ret, close_from_ret, close_to_ret;
 
-	if (filename == NULL)
-		return (-1);
+	if (argc != 3)
+		exit(exit_error(97, NULL, 0));
+	if (argv[1] == NULL)
+		exit(exit_error(98, argv[1], 0));
 
-	fd = open(filename, O_APPEND | O_WRONLY, S_IRUSR | S_IWUSR);
-	if (fd == -1)
-		return (-1);
+	file_from = argv[1], file_to = argv[2];
 
-	if (text_content == NULL)
-		return (1);
+	fd_from = open(file_from, O_RDONLY);
+	if (fd_from == -1)
+		exit(exit_error(98, file_from, fd_from));
 
-	for (counter = 0; text_content[counter] != '\0'; counter++)
-		;
-	if (counter == 0)
+	fd_to = open(file_to, O_CREAT | O_TRUNC | O_WRONLY, 00664);
+	if (fd_to == -1)
+		exit(exit_error(99, file_to, fd_to));
+
+	read_ret = read(fd_from, buffer, BUFLEN);
+	if (read_ret == -1)
+		exit(exit_error(98, file_from, fd_from));
+
+	while (read_ret != 0)
 	{
-		close(fd);
-		return (1);
+		write_ret = write(fd_to, buffer, read_ret);
+		if (write_ret == -1)
+			exit(exit_error(99, file_to, fd_to));
+		read_ret = read(fd_from, buffer, BUFLEN);
 	}
 
-	write_ret = write(fd, text_content, counter);
-	if (write_ret == -1)
-		return (-1);
+	close_from_ret = close(fd_from);
+	if (close_from_ret == -1)
+		exit(exit_error(100, file_from, fd_from));
+	close_to_ret = close(fd_to);
+	if (close_to_ret == -1)
+		exit(exit_error(100, file_to, fd_to));
 
-	close_ret = close(fd);
-	if (close_ret == -1)
-		return (-1);
-	return (1);
+	return (0);
+}
+
+/**
+ * exit_error - print error and return number for exit status
+ * @num: error number
+ * @str: string to print in error
+ * @fd: file descriptor
+ * Return: exit status number
+ */
+int exit_error(int num, char *str, int fd)
+{
+	int status = 0;
+
+	switch (num)
+	{
+	case 97:
+		dprintf(STDERR_FILENO, "Usage: cp file_from file_to\n");
+		status = 97;
+		break;
+
+	case 98:
+		dprintf(STDERR_FILENO, "Error: Can't read from file %s\n", str);
+		status = 98;
+		break;
+
+	case 99:
+		dprintf(STDERR_FILENO, "Error: Can't write to %s\n", str);
+		status = 99;
+		break;
+
+	case 100:
+		dprintf(STDERR_FILENO, "Error: Can't close fd %d\n", fd);
+		status = 100;
+		break;
+	}
+
+	return (status);
 }
