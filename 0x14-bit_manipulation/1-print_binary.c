@@ -1,8 +1,8 @@
 #include "main.h"
 #include <stdlib.h>
-/*
- * print_binary - prints the binarconversion of a number
- * @num: number to be converted to binary
+/**
+ * print_binary - prints the binary conversion of a number
+ * @n: number to be converted to binary
  * Return: void
  *
  **/
